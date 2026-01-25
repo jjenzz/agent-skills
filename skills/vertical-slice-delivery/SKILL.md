@@ -1,24 +1,24 @@
 ---
 name: vertical-slice-delivery
-description: Enforces vertical slice planning, incremental delivery, and Git discipline. Apply when proposing, planning, breaking down, or implementing a feature.
+description: Enforces vertical slice planning, incremental delivery, and Git discipline. Apply when planning or breaking down any multi-step code change (features, refactors, bug fixes, tech debt).
 ---
 
 # Vertical Slice Delivery
 
-Strict workflow for planning, delivering, and resuming features via vertical slices and clean Git history.
+Strict workflow for planning, delivering, and resuming work via vertical slices and clean Git history.
 
 ## When to Apply
 
 Use this skill when:
 
-- Proposing or brainstorming new features (ensure they're sliced correctly from the start)
-- Planning or breaking down a project, feature, or body of work
+- Planning or breaking down any multi-step code change (features, refactors, fixes, tech debt)
 - Splitting work into tasks (slices)
 - Creating, amending, squashing, or rebasing commits
 - Estimating progress on a feature branch
 - Continuing after a pause or context reset
+- An investigation reveals a solution requiring multiple changes
 
-**Key trigger phrases:** "plan a feature", "break this down", "what tasks", "propose a feature", "new feature idea"
+**Key trigger phrases:** "plan this", "break this down", "what tasks", "what are the steps", "plan the fix", "plan the refactor", "how should we fix"
 
 ## Vertical Slice Architecture
 
