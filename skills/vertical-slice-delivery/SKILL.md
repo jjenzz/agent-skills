@@ -129,6 +129,8 @@ Fix and re-audit any failing criterion; do not commit without reporting the tabl
 
 - Agent may commit, fixup, autosquash, and rebase on feature branches without approval
 - Human approval required for force-pushing shared branches, merging into main/production, or explicitly high-risk/cross-cutting changes
+- If the agent cannot automatically commit for any reason (including repo rules or tooling constraints), it MUST stop and ask the user to commit after each slice implementation
+- NEVER start the next slice until the current slice is committed (or the user explicitly waives the commit gate)
 
 ## Stateless Operation
 
@@ -169,5 +171,6 @@ Commit, squash, or rebase only after:
 - Incremental slice validation
 - Quality audit
 - Explicit ownership decision
+- DO NOT proceed to the next slice without a commit or an explicit user waiver
 
 This skill ensures **vertical slice delivery, incremental progress, low context cost, and high code quality** by default.
