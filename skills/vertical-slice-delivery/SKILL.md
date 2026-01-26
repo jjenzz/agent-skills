@@ -41,6 +41,7 @@ If a slice only becomes useful after later work, it violates this rule.
 - Auto-detect base branch via `git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'`; default to `main` if detection fails
 - Treat the command output as the complete list of slices; rerun before every decision, after rebases/amends, and after context resets
 - Consider Git history the authoritative external memory; never assume plans exist unless reflected there
+- Do NOT update plan markdown files with status/summary; infer completion from Git history only
 
 ## Branch Modes
 
