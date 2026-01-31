@@ -1,93 +1,44 @@
 ---
 name: vertical-slice-delivery
-description: A delivery methodology for shipping work incrementally via independently valuable vertical slices.
+description: Required methodology for planning, ideating, and delivering features or tasks. Use when user asks to "plan", "break down", "continue", or "figure out steps".
 ---
 
 # Vertical Slice Delivery
 
-Vertical slice delivery structures work as a sequence of small, end-to-end behaviors that each deliver real value on their own. This skill defines how work should be conceptualized and planned.
+This skill defines the default delivery methodology for planning and shipping
+work as independently valuable, reviewable vertical slices.
+
+When this skill is selected, you MUST load and obey the accompanying `AGENTS.md`.
 
 ## When to Apply
 
-Apply this skill when:
+Use this skill whenever work is being:
 
-- Designing or delivering a feature
-- Breaking down a multi-step change into meaningful units
-- Estimating progress in terms of user-visible behavior
-- Resuming delivery work after a pause
-- Coordinating multiple changes that must evolve together
+- planned
+- split into tasks or steps
+- delivered incrementally
+- resumed after interruption
 
-**Key trigger phrases:** "plan this", "break this down", "what tasks", "what are the steps", "plan the fix", "plan the refactor", "how should we fix".
+Any deviation from vertical slice delivery MUST be explicit and justified.
 
-When this skill is selected you MUST load and obey the accompanying `AGENTS.md`.
+## Core Loop
 
-## What a Vertical Slice Is
+Each slice = one commit + one review. No slice begins until the previous is approved.
 
-A vertical slice is a **complete behavior**, not a technical step.
+1. **IMPLEMENT** — one behavioral slice only
+2. **COMMIT** — with slice ID `[S1]`
+3. **STOP** — mandatory review (do not proceed)
+4. **WAIT** — approved → next slice, blocked → fixup and re-review
 
-Each slice:
+## Key Concepts
 
-- delivers a usable end-to-end outcome
-- spans all necessary layers (UI, logic, data, tests)
-- is valuable even if no further slices are completed
-- is safe to deploy to production on its own
+| Concept           | Summary                                                                     |
+| ----------------- | --------------------------------------------------------------------------- |
+| Behavioral Slices | Deployable behaviors, not technical tasks. "Can a user demo this alone?"    |
+| Role Separation   | Delivery writes code; Review audits and approves. Self-approval prohibited. |
+| Git Discipline    | Status before work, explicit paths, fixups for amendments                   |
+| Code Guidelines   | Improve touched code only, no speculative abstraction                       |
 
-A slice that cannot be deployed to production without relying on future work is not a valid slice.
+## Full Document
 
-Think:
-
-> skateboard → scooter → bicycle → motorcycle → car
-
-Not:
-
-> wheels → chassis → engine → body → car
-
-The former delivers value at every step.
-The latter delivers nothing until the end.
-
-## Planning Constraints
-
-- Work must be divided into **behavioral increments**
-- Each behavior must stand on its own
-- Behaviors must build additively, never retroactively
-- Each behavior must have a clear owner (slice)
-
-**Planning template**
-
-```
-Slice ID:
-Behavior:
-Includes (layers / concerns):
-```
-
-**Good vs Bad Slices**
-
-Good:
-
-```
-[S1] Users can view their profile
-[S2] Users can edit their display name
-[S3] Users can upload a profile photo
-```
-
-Bad:
-
-```
-[S1] Create User model/migrations
-[S2] Add profile API endpoints
-[S3] Build profile UI components
-```
-
-The bad example creates "wheels without a vehicle"—no slice delivers user value until all are complete.
-
-## Completion Definition
-
-Work is complete when:
-
-- All intended behaviors exist as slices
-- Each behavior stands independently
-- No known gaps remain unowned
-
-Completion is judged by **delivered behavior**, not task lists.
-
-This skill exists to reduce context loss, avoid speculative design, and keep delivery aligned with real product value.
+All rules with examples and details: `AGENTS.md`

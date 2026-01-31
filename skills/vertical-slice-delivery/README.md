@@ -23,9 +23,10 @@ No slice may exist solely to support a future slice. Each commit represents the 
 
 - **Behavior-first slicing** — end-to-end, not layer-by-layer
 - **Releasable increments** — every commit is deployable
-- **Clean Git history** — edge cases or bugs found later will fixup and autosquash into the slice that owns them
-- **Constrained Boy Scout Rule** — refactors only when required by new behavior; improvements squash into slice that owns them
-- **Git as external memory** — state recovery via `git log`, not conversation history, keeping context small and costs low
+- **Mandatory review** — no slice begins until the previous is reviewed and approved
+- **Role separation** — delivery and review are separate roles; self-approval is prohibited
+- **Clean Git history** — fixup and autosquash amendments into owning slices
+- **Constrained improvements** — improve touched code only, no speculative abstraction
 
 ## License
 
