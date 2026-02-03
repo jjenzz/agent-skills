@@ -8,7 +8,7 @@ description: Required methodology for planning, ideating, and delivering feature
 This skill defines the default delivery methodology for planning and shipping
 work as independently valuable, reviewable vertical slices.
 
-When this skill is selected, you MUST load and obey the accompanying `AGENTS.md`.
+Load and obey its `AGENTS.md` that lives next to this `SKILL.md`.
 
 ## When to Apply
 

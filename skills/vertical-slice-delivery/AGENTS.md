@@ -6,41 +6,29 @@ Each slice = one commit + one review. No slice begins until the previous is appr
 
 Follow this exact sequence. Do not skip steps.
 
-### 1. IMPLEMENT
+### 1. IMPLEMENT (DELIEVRY)
 
 - Implement exactly one behavioral slice
 - Modify only what the slice requires
 - Run `git status` to verify changes
 
-### 2. COMMIT
+### 2. COMMIT (DELIVERY)
 
 - Stage only files you touched
 - Commit with slice ID: `git commit -m "[S1] <message>"`
 - Verify: `git log -1 --stat`
 
-### 3. STOP — MANDATORY REVIEW
+### 3. STOP — MANDATORY REVIEW (REVIEW)
 
 - DO NOT proceed to the next slice.
 - DO NOT write more code.
 - DO NOT update todos for the next slice.
 
-Execution MUST transition to the Review role.
-Review MUST be performed by a different agent execution than Delivery.
-Self-review is prohibited.
+Execution MUST transition to the Review role. Review MUST be performed by a different agent execution than Delivery. Self-review is prohibited.
 
-If a distinct review agent execution cannot be provisioned,
-execution MUST pause and request Human-in-the-Loop review.
+If a distinct review agent execution can be provisioned, you MUST spawn a sub-agent for review. Human review is fallback only. Execution MUST NOT continue without review approval. Self-approval is prohibited.
 
-Execution MUST NOT continue without review approval.
-
-Implementation hints (non-normative):
-
-| Runtime | Preferred mechanism                          |
-| ------- | -------------------------------------------- |
-| Cursor  | Spawn a review sub-agent using the Task tool |
-| Other   | Pause execution and request HITL             |
-
-### 4. WAIT FOR RESULT
+### 4. WAIT FOR RESULT (DELIVERY)
 
 - APPROVED → proceed to next slice
 - BLOCKED → fix with `git commit --fixup HEAD`, re-request review
@@ -74,16 +62,6 @@ Behavior:
 Includes:
 Cleanup:
 ```
-
-## Delivery and Review Roles
-
-Two roles per slice:
-
-- **Delivery** — writes code, commits
-- **Review** — sub-agent that audits committed code, approves or blocks
-
-You MUST spawn a sub-agent for review. Human review is fallback only.
-Self-approval is prohibited.
 
 ## Git Discipline
 
@@ -154,11 +132,11 @@ Improve code you touch. Each slice should leave the codebase better than before,
 
 - Fix issues in code you modify for the slice (not unrelated files)
 - Remove obsolete code made unreachable by the slice (components, branches, helpers, configs, tests)
-- Remove duplication when a pattern emerges across 3+ instances you touch
-- Generalise only when the slice introduces multiple concrete usages
-- Never abstract speculatively — all changes must serve the slice's behavior
+- Remove duplication when the slice causes a pattern to emerge across 3+ instances
+- Generalise only when the slice introduces multiple concrete usages in the codebase
+- Never abstract speculatively — changes must serve the slice's behavior
 - Copy-paste is acceptable while waiting for patterns to emerge
-- No placeholder files, empty directories, or stubs for future work — if not required for the slice's behavior, don't create it
+- No placeholder files, empty directories, or stubs for future work
 
 The goal: incremental improvement without scope creep. Every slice makes the touched code slightly better.
 
