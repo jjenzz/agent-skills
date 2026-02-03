@@ -72,6 +72,7 @@ Planning template:
 Slice ID:
 Behavior:
 Includes:
+Cleanup:
 ```
 
 ## Delivery and Review Roles
@@ -106,14 +107,15 @@ If this fails or returns nothing, ask the user for the base branch.
 ```bash
 git restore --staged :/ && \
 git add "path/to/file1" "path/to/file2" && \
-git commit -m "[S1] <message>"
+git commit -m "[S1] <message>" -m "- <summary bullet 1>\n- <summary bullet 2>"
 ```
 
 Quote paths with special characters. Include slice ID in message.
+Commit messages MUST include a short summary body (1–3 bullets) describing the behavioral change.
 
 ### Fixing Committed Slices
 
-Amendments to existing slices use fixup:
+Amendments to existing slices must use fixup **and** autosquash immediately:
 
 ```bash
 git commit --fixup <commit-hash>
@@ -136,6 +138,7 @@ Review commit for slice [SLICE_ID].
    - Generalises only concrete reuse
    - Acceptable performance
    - Tests assert behavior (if applicable)
+   - Obsolete code removed (dead branches, unused helpers/configs/tests)
 
 3. Return: APPROVED or BLOCKED with reasoning
 ```
@@ -150,6 +153,7 @@ After sub-agent returns:
 Improve code you touch. Each slice should leave the codebase better than before, constrained by these rules:
 
 - Fix issues in code you modify for the slice (not unrelated files)
+- Remove obsolete code made unreachable by the slice (components, branches, helpers, configs, tests)
 - Remove duplication when a pattern emerges across 3+ instances you touch
 - Generalise only when the slice introduces multiple concrete usages
 - Never abstract speculatively — all changes must serve the slice's behavior
