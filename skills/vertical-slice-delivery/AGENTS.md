@@ -15,7 +15,9 @@ Follow this exact sequence. Do not skip steps.
 ### 2. COMMIT (DELIVERY)
 
 - Stage only files you touched
-- Commit with slice ID: `git commit -m "[S1] <message>"`
+- Commit with conventional message + slice ID suffix
+  - Format: `feat(scope): [S1] description`
+  - Include 1–3 bullet summary lines in the body
 - Verify: `git log -1 --stat`
 
 ### 3. STOP — MANDATORY REVIEW (REVIEW)
@@ -85,7 +87,7 @@ If this fails or returns nothing, ask the user for the base branch.
 ```bash
 git restore --staged :/ && \
 git add "path/to/file1" "path/to/file2" && \
-git commit -m "[S1] <message>" -m "- <summary bullet 1>\n- <summary bullet 2>"
+git commit -m "feat(scope): [S1] description" -m "- <summary bullet 1>\n- <summary bullet 2>"
 ```
 
 Quote paths with special characters. Include slice ID in message.

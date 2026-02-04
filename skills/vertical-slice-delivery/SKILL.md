@@ -26,7 +26,7 @@ Any deviation from vertical slice delivery MUST be explicit and justified.
 Each slice = one commit + one review. No slice begins until the previous is approved.
 
 1. **IMPLEMENT** — one behavioral slice only
-2. **COMMIT** — with slice ID `[S1]`
+2. **COMMIT** — with slice ID and conventional message `feat(scope): [S1] description`
 3. **STOP** — mandatory review (do not proceed)
 4. **WAIT** — approved → next slice, blocked → fixup and re-review
 
