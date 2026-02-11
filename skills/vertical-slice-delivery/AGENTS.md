@@ -2,6 +2,27 @@
 
 Each slice = one commit + one review. No slice begins until the previous is approved.
 
+## Behavioral Slices
+
+A slice is a deployable behavior, not a technical task.
+
+Each slice MUST:
+
+- Describe what a user can do, not what code changes
+- Span all required layers (UI, logic, data, tests)
+- Be independently releasable without future slices
+
+Validation rule: Can a user demo this slice alone? If not, squash or reorder slices.
+
+Planning template:
+
+```
+Slice ID:
+Behavior:
+Includes:
+Cleanup:
+```
+
 ## Per-Slice Workflow
 
 Follow this exact sequence. Do not skip steps.
@@ -43,27 +64,6 @@ If a distinct review agent execution can be provisioned, you MUST spawn a sub-ag
 - Self-approving
 - Updating todos before review completes
 - Creating placeholder files/folders for future slices
-
-## Behavioral Slices
-
-A slice is a deployable behavior, not a technical task.
-
-Each slice MUST:
-
-- Describe what a user can do, not what code changes
-- Span all required layers (UI, logic, data, tests)
-- Be independently releasable without future slices
-
-Validation rule: Can a user demo this slice alone? If not, merge or reorder slices.
-
-Planning template:
-
-```
-Slice ID:
-Behavior:
-Includes:
-Cleanup:
-```
 
 ## Git Discipline
 
@@ -130,9 +130,9 @@ After sub-agent returns:
 
 ## Code Guidelines
 
-Improve code you touch. Each slice should leave the codebase better than before, constrained by these rules:
+For each slice, examine the existing system and redesign it into the most elegant solution that would have emerged if the slice had been a foundational assumption from the start:
 
-- Fix issues in code you modify for the slice (not unrelated files)
+- Fix issues in code you touch (not unrelated files)
 - Remove obsolete code made unreachable by the slice (components, branches, helpers, configs, tests)
 - Remove duplication when the slice causes a pattern to emerge across 3+ instances
 - Generalise only when the slice introduces multiple concrete usages in the codebase
@@ -140,7 +140,7 @@ Improve code you touch. Each slice should leave the codebase better than before,
 - Copy-paste is acceptable while waiting for patterns to emerge
 - No placeholder files, empty directories, or stubs for future work
 
-The goal: incremental improvement without scope creep. Every slice makes the touched code slightly better.
+The goal: incremental improvement without scope creep. Every slice should leave the codebase better than you found it.
 
 ## State Recovery
 
