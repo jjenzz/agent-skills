@@ -9,6 +9,7 @@ Follow this exact sequence. Do not skip steps.
 ### 1. PRE-FLIGHT (DELIVERY) — REQUIRED
 
 Before writing code, output this checklist and confirm each item:
+
 - `git status` is clean
 - Base branch resolved (see `## Git Discipline` below)
 - Slice ID chosen (e.g. S1)
@@ -141,17 +142,16 @@ Improve code you touch. Each slice should leave the codebase better than before,
 - Fix issues in code you modify for the slice (not unrelated files).
 - Remove obsolete or unreachable code introduced by the change (components, branches, helpers, configs, tests).
 - Prefer direct, local, explicit code over indirection.
-- Inline single-use logic unless extraction clearly improves readability or reuse.
-- Do not introduce single-use abstractions or indirection layers.
+- Do not introduce single-use extractions, abstractions, or indirection layers, unless they clearly improve readability, enable concrete reuse, or are lint-driven.
 - Allow duplication until a concrete reuse pattern exists; copy-paste is acceptable temporarily.
 - Only extract/generalize when BOTH are true:
-    1. 3+ real call sites exist, **counting both existing code and the new code you’re adding**, and
-    2. the abstraction directly supports shipped behavior (not “cleanliness”).
+  1. 3+ real call sites exist, **counting both existing code and the new code you’re adding**, and
+  2. the abstraction directly supports shipped behavior (not “cleanliness”).
 - Avoid speculative abstractions, placeholders, or future scaffolding.
 - Keep control flow easy to trace via IDE navigation and search. Developers should be able to quickly identify:
-    1. what triggers behavior
-    2. what executes next
-    3. where handlers are defined
+  1. what triggers behavior
+  2. what executes next
+  3. where handlers are defined
 - Prefer unidirectional dependency/data flow where practical.
 - Prefer derived values over redundant stored state.
 - Contain side effects; avoid hidden mutations or implicit behavior.
