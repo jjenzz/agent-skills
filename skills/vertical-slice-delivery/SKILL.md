@@ -1,6 +1,6 @@
 ---
 name: vertical-slice-delivery
-description: Required methodology for planning, ideating, and delivering features or tasks. Use when user asks to "plan", "break down", "continue", or "figure out steps".
+description: Required methodology for planning, ideating, and delivering features or tasks. Use when user asks to "plan", "break down", "implement" or "deliver".
 ---
 
 # Vertical Slice Delivery
@@ -32,12 +32,10 @@ Each slice = one commit + one review. No slice begins until the previous is appr
 
 ## Key Concepts
 
-| Concept           | Summary                                                                     |
-| ----------------- | --------------------------------------------------------------------------- |
-| Behavioral Slices | Deployable behaviors, not technical tasks. "Can a user demo this alone?"    |
-| Role Separation   | Delivery writes code; Review audits and approves. Self-approval prohibited. |
-| Git Discipline    | Status before work, explicit paths, fixups for amendments                   |
-| Code Guidelines   | Improve touched code only, no speculative abstraction                       |
+- Behavioral Slices: Deployable behaviors, not technical tasks. "Can a user demo this in production?"
+- Role Separation: Delivery writes code; Review audits and approves. Self-approval prohibited.
+- Git Discipline: Status before work, explicit paths, fixups for amendments.
+- Code Guidelines: Improve touched code, no speculative abstraction.
 
 ## Full Document
 

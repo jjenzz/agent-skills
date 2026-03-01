@@ -1,7 +1,5 @@
 # Vertical Slice Delivery
 
-Each slice = one commit + one review. No slice begins until the previous is approved.
-
 ## Per-Slice Workflow
 
 Follow this exact sequence. Do not skip steps.
@@ -11,7 +9,8 @@ Follow this exact sequence. Do not skip steps.
 Before writing code, output this checklist and confirm each item:
 
 - `git status` is clean
-- Base branch resolved (see `## Git Discipline` below)
+- Base branch resolved (see `## Git Discipline`)
+- `git log <base-branch>..HEAD` plan progress
 - Slice ID chosen (e.g. S1)
 - Review agent planned and prompt ready
 
@@ -20,35 +19,30 @@ If any item is not satisfied, STOP and resolve it before continuing.
 ### 2. IMPLEMENT (DELIEVRY)
 
 - Implement exactly one behavioral slice
+  - Think: Skateboard → Scooter → Bicycle → Motorcycle → Car
+  - Not: Wheels → Chassis → Engine → Body → Car
 - Modify only what the slice requires
 - Run `git status` to verify changes
-- If the slice is described as `UI-only`, `backend-only`, or `tests later`, STOP and rewrite it as an end-to-end behavior slice first
-
-HARD STOP GUARD: If any file changes exist and you are not in the COMMIT step, STOP and commit the current slice before making further edits.
+- If the slice is described as "UI only", "backend only", or "tests later", STOP and rewrite it as an end-to-end slice
 
 ### 3. COMMIT (DELIVERY)
 
 - Stage only files you touched
 - Commit with conventional message + slice ID suffix
   - Format: `feat(scope): [S1] description`
-  - Include 1–3 bullet summary lines in the body
-- Verify: `git log -1 --stat`
+  - Always include 1–3 bullet summary in the body describing behavioral change
 
 ### 4. STOP — MANDATORY REVIEW (REVIEW)
 
 - DO NOT proceed to the next slice.
 - DO NOT write more code.
-- DO NOT update todos for the next slice.
-
-Execution MUST transition to the Review role. Review MUST be performed by a different agent execution than Delivery. Self-review is prohibited.
-
-If a distinct review agent execution can be provisioned, you MUST spawn a sub-agent for review. Human review is fallback only. Execution MUST NOT continue without review approval. Self-approval is prohibited.
-
-RECOVERY: If changes were made without a slice commit, STOP immediately, create the slice commit, and request review before any additional edits.
+- Execution MUST transition to the Review role.
+- Review MUST be performed by a sub-agent. Human review is fallback only.
+- Execution MUST NOT continue without review approval. Self-approval is prohibited.
 
 ### 5. WAIT FOR RESULT (DELIVERY)
 
-- APPROVED → proceed to next slice
+- APPROVED → squash commmits → proceed to next slice
 - BLOCKED → fix with `git commit --fixup HEAD`, re-request review
 
 ## Behavioral Slices
@@ -63,8 +57,8 @@ Each slice MUST:
 
 Validation rule: Can a user demo this slice alone in a production environment? If not, squash or reorder slices.
 
-Bad slice: `Add delete button UI to chat history item.`
-Good slice: `User can delete a chat history item.`
+- Bad slice: `Add delete button UI to chat history item.`
+- Good slice: `User can delete a chat history item.`
 
 Planning template:
 
@@ -85,12 +79,7 @@ Detect the base branch before starting work:
 git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
 ```
 
-If this fails or returns nothing, ask the user for the base branch.
-
-### Before Starting
-
-- `git status` — check for uncommitted changes
-- `git log <base-branch>..HEAD --oneline` — see existing slices
+If this fails or returns nothing, ask for the base branch.
 
 ### Committing
 
@@ -101,14 +90,18 @@ git commit -m "feat(scope): [S1] description" -m "- <summary bullet 1>\n- <summa
 ```
 
 Quote paths with special characters. Include slice ID in message.
-Commit messages MUST include a short summary body (1–3 bullets) describing the behavioral change.
 
 ### Fixing Committed Slices
 
-Amendments to existing slices must use fixup **and** autosquash immediately:
+Amendments to existing slices must use fixup:
 
 ```bash
 git commit --fixup <commit-hash>
+```
+
+### Squashing Commits
+
+```bash
 GIT_EDITOR=: GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash <base-branch>
 ```
 
@@ -130,46 +123,25 @@ Review commit for slice [SLICE_ID].
 3. Return: APPROVED or BLOCKED with reasoning
 ```
 
-After sub-agent returns:
-
-- APPROVED → proceed to next slice
-- BLOCKED → `git commit --fixup HEAD`, spawn review sub-agent again
-
 ## Code Guidelines
 
 Improve code you touch. Each slice should leave the codebase better than before, constrained by these rules:
 
 - Fix issues in code you modify for the slice (not unrelated files).
-- Remove obsolete or unreachable code introduced by the change (components, branches, helpers, configs, tests).
-- Prefer direct, local, explicit code over indirection.
-- Do not introduce single-use extractions, abstractions, or indirection layers, unless they clearly improve readability, enable concrete reuse, or are lint-driven.
-- Allow duplication until a concrete reuse pattern exists; copy-paste is acceptable temporarily.
+- Contain side effects; avoid hidden mutations or implicit behavior (CRITICAL).
+- Remove obsolete or unreachable code caused by the change (components, branches, helpers, configs, tests).
+- Always prefer direct, local, explicit code over indirection.
+- Do not introduce single-use extractions or abstractions unless it enables concrete reuse, or is lint-driven.
 - Only extract/generalize when BOTH are true:
   1. 3+ real call sites exist, **counting both existing code and the new code you’re adding**, and
   2. the abstraction directly supports shipped behavior (not “cleanliness”).
 - Avoid speculative abstractions, placeholders, or future scaffolding.
-- Keep control flow easy to trace via IDE navigation and search. Developers should be able to quickly identify:
-  1. what triggers behavior
-  2. what executes next
-  3. where handlers are defined
-- Prefer unidirectional dependency/data flow where practical.
+- Allow duplication until concrete patterns exist; copy-paste is acceptable temporarily.
+- Keep control flow easy to trace via IDE navigation and search.
+- Prefer unidirectional dependency/data flow.
 - Prefer derived values over redundant stored state.
-- Contain side effects; avoid hidden mutations or implicit behavior.
-- Maintain acceptable algorithmic complexity for expected scale (prefer O(n) over O(n²) when lists can grow).
-- Avoid premature performance optimizations unless profiling or constraints justify them.
+- Ensure acceptable algorithmic complexity (prefer O(n) over O(n²) when lists can grow).
 - Add tests where they reduce meaningful user-facing or diagnostic risk.
 - Prefer boring, obvious solutions unless complexity is clearly reduced.
 
 The goal: incremental improvement without scope creep. Every slice makes touched code slightly better.
-
-## State Recovery
-
-Prefer git over conversation context:
-
-- `git log <base-branch>..HEAD` — existing slices
-- `git show <commit>` — specific changes
-
-## Safety
-
-If review cannot occur, stop.
-If a command fails unexpectedly, stop and ask.
