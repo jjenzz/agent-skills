@@ -5,10 +5,9 @@ description: Required methodology for planning, ideating, and delivering feature
 
 # Vertical Slice Delivery
 
-This skill defines the default delivery methodology for planning and shipping
-work as independently valuable, reviewable vertical slices.
+This skill defines default delivery as independently valuable, reviewable vertical slices.
 
-Load and obey its `AGENTS.md` that lives next to this `SKILL.md`.
+Load and obey its orchestrator `AGENTS.md` that lives next to this `SKILL.md`.
 
 ## When to Apply
 
@@ -23,20 +22,10 @@ Any deviation from vertical slice delivery MUST be explicit and justified.
 
 ## Core Loop
 
-Each slice = one commit + one review. No slice begins until the previous is approved.
-
-1. **IMPLEMENT** — one behavioral slice only
-2. **COMMIT** — with slice ID and conventional message `feat(scope): [S1] description`
-3. **STOP** — mandatory review (do not proceed)
-4. **WAIT** — approved → next slice, blocked → fixup and re-review
-
-## Key Concepts
-
-- Behavioral Slices: Deployable behaviors, not technical tasks. "Can a user demo this in production?"
-- Role Separation: Delivery writes code; Review audits and approves. Self-approval prohibited.
-- Git Discipline: Status before work, explicit paths, fixups for amendments.
-- Code Guidelines: Improve touched code, no speculative abstraction.
+Each slice = plan -> deliver -> quality gate -> review.
+No next slice starts until current slice is `APPROVED`.
 
 ## Full Document
 
-All rules with examples and details: `AGENTS.md`
+Orchestration rules: `<SKILL-ROOT-DIR>/AGENTS.md`
+Role rules are resolved by the orchestrator at sub-agent invocation time.
