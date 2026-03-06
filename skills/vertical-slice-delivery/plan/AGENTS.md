@@ -23,6 +23,15 @@ Each slice must represent user-visible behavior, not technical layering.
 6. Keep slices small enough for focused review.
 7. Call out dependencies and risk per slice.
 
+## Slice Quality Checks
+
+Before finalizing, verify every slice:
+
+- Can a user demo it independently?
+- Does it avoid speculative infrastructure?
+- Does it avoid future-dependent fragments?
+- Is behavior explicit and testable?
+
 ## Required Output Format
 
 Use this exact structure:
@@ -50,11 +59,8 @@ Recommended Next Slice:
 - Why now:
 ```
 
-## Slice Quality Checks
+And:
 
-Before finalizing, verify every slice:
-
-- Can a user demo it independently?
-- Does it avoid speculative infrastructure?
-- Does it avoid future-dependent fragments?
-- Is behavior explicit and testable?
+1. Write the complete plan to a Markdown file in the workspace.
+2. Save it under `plans/` using a descriptive `.md` filename.
+3. Return `COMPLETE` with exactly one line for parent parsing: `plan_file_path: plans/<filename>.md`.
