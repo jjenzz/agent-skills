@@ -8,11 +8,11 @@ Run in strict order: `PLAN -> DELIVER -> QUALITY_GATE -> REVIEW`.
 
 - `PLAN`: run planning sub-agent
   - `COMPLETE`: return `plan_file_path`
-- `DELIVER`: run delivery sub-agent for one slice with `plan_file_path`
+- `DELIVER`: run delivery sub-agent for one slice with `plan_file_path` or fixup instructions
 - `QUALITY_GATE`: run lint against changed files and apply fixes
 - `REVIEW`: run review sub-agent
   - `BLOCKED`: run `FIXUP`
-  - `APPROVED`: run `COMMIT`, then proceed to next slice
+  - `APPROVED`: run `COMMIT` then proceed to next slice
 
 ### COMMIT (REQUIRED)
 
@@ -39,7 +39,7 @@ When `BLOCKED`, goto `DELIVER` and share findings with fixup instructions:
 git commit --fixup HEAD
 ```
 
-And then proceed with `QUALITY_GATE -> REVIEW`.
+Then proceed with `QUALITY_GATE -> REVIEW`.
 
 ## Sub-Agent Invocation Contract
 

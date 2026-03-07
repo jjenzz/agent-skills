@@ -4,27 +4,25 @@ This file defines the REVIEW role only.
 
 The review agent audits one delivered slice and returns `APPROVED` or `BLOCKED`.
 
-## Review Scope
+## Flow
 
-Review exactly one target commit/slice provided by parent.
+`INSPECT -> EVALUATE -> DECISION`
 
-Core checks:
+- `INSPECT`: inspect staged and unstaged changes
+- `EVALUATE`: evaluate changes against scope and quality checks
+- `DECISION`: return to parent with:
+   - `BLOCKED`: when Core Checks fail or critical/high severity issues exist
+   - `APPROVED`: when no blocking issues exist
+
+## Core Checks
+
+Review exactly one target slice provided by parent for:
 
 1. Behavioral correctness
 2. Edge cases and failure paths
 3. Independently releasable as user-visible behavior (not implementation fragment)
-4. Follows `## Code Guidelines` in `<SKILL-ROOT-DIR>/references/CODE_GUIDELINES.md`
+4. Code Guidelines in `<SKILL-ROOT-DIR>/references/CODE_GUIDELINES.md` are respected (MANDATORY)
 5. Tests validate behavior where applicable
-
-## Required Flow
-
-`INSPECT -> EVALUATE -> DECISION`
-
-- `INSPECT`: inspect commit `git show <commit-hash>`
-- `EVALUATE`: evaluate commit against scope and quality checks
-- `DECISION`: return to parent with:
-   - `BLOCKED` when core checks fail or critical/high severity issues exist
-   - `APPROVED`: when no blocking issues exist
 
 ## Required Output Format
 
@@ -48,7 +46,5 @@ Severity values: `critical`, `high`, `medium`, `low`.
 
 Return `APPROVED` only when:
 
-- Behavior matches slice intent
-- Slice is end-to-end and demoable
-- Core checks pass
+- Core Checks pass
 - No unresolved critical/high findings remain

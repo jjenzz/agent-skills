@@ -1,4 +1,4 @@
-## Code Guidelines
+# Code Guidelines
 
 Improve touched code without scope creep:
 

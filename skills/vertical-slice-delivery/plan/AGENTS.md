@@ -16,7 +16,7 @@ Each slice must represent user-visible behavior, not technical layering.
 ## Planning Rules
 
 1. Plan in behavior-first vertical slices.
-2. Each slice must span all required layers (`UI`, `domain/data`, `state transition`, `verification`) for that behavior.
+2. Each slice must span all required layers (UI, domain/data, state transition, verification) for that behavior.
 3. No "UI only", "backend only", or "tests later" slices.
 4. A slice must be demoable alone in production.
 5. Sequence slices to maximize early user value.

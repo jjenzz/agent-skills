@@ -27,5 +27,5 @@ No next slice starts until current slice is `APPROVED`.
 
 ## Full Document
 
-Orchestration rules: `<SKILL-ROOT-DIR>/AGENTS.md`
+Orchestration rules: `<SKILL-ROOT-DIR>/AGENTS.md`. 
 Role rules are resolved by the orchestrator at sub-agent invocation time.
