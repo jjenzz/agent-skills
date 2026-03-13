@@ -22,10 +22,4 @@ Any deviation from vertical slice delivery MUST be explicit and justified.
 
 ## Core Loop
 
-Each slice = plan -> deliver -> quality gate -> review.
-No next slice starts until current slice is `APPROVED`.
-
-## Full Document
-
-Orchestration rules: `<SKILL-ROOT-DIR>/AGENTS.md`. 
-Role rules are resolved by the orchestrator at sub-agent invocation time.
+Each slice = plan -> deliver -> quality gate -> review -> commit. No next slice starts until current slice is committed.

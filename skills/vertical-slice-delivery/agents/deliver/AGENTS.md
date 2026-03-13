@@ -12,8 +12,8 @@ Follow this sequence. Do not skip steps.
 
 Before writing code, output this checklist and confirm each item:
 
-- `plan_file_path` or fixup instructions provided by parent
-- `git status` is clean (or unrelated changes are explicitly acknowledged)
+- `plan_file_path` or fix instructions provided by parent
+- `git status` is clean (excluding `plan_file_path`)
 - Base branch resolved (see Git Discipline)
 - `git log <base-branch>..HEAD` reviewed for prior slice context
 - Slice ID chosen (for example, `S1`)
@@ -28,11 +28,11 @@ You MUST:
 - Implement exactly one behavioral slice.
 - Modify only what this slice requires.
 - If slice framing is "UI only", "backend only", or "tests later", STOP and return for re-planning.
-- Run formatter against changed files.
+- Run formatter (prettier/biome fixes) against changed files.
 
 ### 4) RETURN TO PARENT
 
-Stop coding and return:
+Stop coding and return `COMPLETE` with:
 
 - Pre-flight checklist status
 - Changed file list

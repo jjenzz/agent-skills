@@ -4,19 +4,25 @@ Parent is an orchestrator only. Parent does not plan, deliver, or review directl
 
 ## Flow
 
-Run in strict order: `PLAN -> DELIVER -> QUALITY_GATE -> REVIEW`.
+Strictly follow the flow state machine.
 
-- `PLAN`: run planning sub-agent
-  - `COMPLETE`: return `plan_file_path`
-- `DELIVER`: run delivery sub-agent for one slice with `plan_file_path` or fixup instructions
-- `QUALITY_GATE`: run lint against changed files and apply fixes
-- `REVIEW`: run review sub-agent
-  - `BLOCKED`: run `FIXUP`
-  - `APPROVED`: run `COMMIT` then proceed to next slice
+Initial state: `PLAN`
 
-### COMMIT (REQUIRED)
+- `PLAN`: run PLAN sub-agent
+  - `COMPLETE`: goto `DELIVER` with `plan_file_path`
+- `DELIVER`: run DELIVER sub-agent for one slice
+  - `COMPLETE`: goto `QUALITY_GATE`
+- `QUALITY_GATE`: run lint on changed files
+  - `BLOCKED`: goto `DELIVER` with issues and instructions
+  - `APPROVED`: goto `REVIEW`
+- `REVIEW`: run REVIEW sub-agent
+  - `BLOCKED`: goto `DELIVER` with issues and instructions
+  - `APPROVED`: goto `COMMIT`
+- `COMMIT`: commit approved slice (follow Commit Instructions)
+  - `BLOCKED`: STOP, DO NOT proceed to next slice, return to HITL
+  - `COMPLETE`: goto `DELIVER` with next slice ID  
 
-When `APPROVED`:
+### Commit Instructions
 
 - Stage only files touched for the approved slice.
 - Commit with conventional message and slice ID:
@@ -29,18 +35,6 @@ git add "path/to/file1" "path/to/file2" && \
 git commit -m "feat(scope): [S1] description" -m "- <summary bullet 1>\n- <summary bullet 2>"
 ```
 
-If commit creation fails, do not advance to the next slice.
-
-### FIXUP
-
-When `BLOCKED`, goto `DELIVER` and share findings with fixup instructions:
-
-```bash
-git commit --fixup HEAD
-```
-
-Then proceed with `QUALITY_GATE -> REVIEW`.
-
 ## Sub-Agent Invocation Contract
 
 When invoking any role sub-agent, parent prompt MUST include:
@@ -49,8 +43,8 @@ When invoking any role sub-agent, parent prompt MUST include:
 
 Role instruction URIs:
 
-- PLAN: `<SKILL-ROOT-DIR>/plan/AGENTS.md`
-- DELIVER: `<SKILL-ROOT-DIR>/deliver/AGENTS.md`
-- REVIEW: `<SKILL-ROOT-DIR>/review/AGENTS.md`
+- PLAN: `<SKILL-ROOT-DIR>/agents/plan/AGENTS.md`
+- DELIVER: `<SKILL-ROOT-DIR>/agents/deliver/AGENTS.md`
+- REVIEW: `<SKILL-ROOT-DIR>/agents/review/AGENTS.md`
 
 Parent MUST NOT load role instruction files into parent context.
