@@ -6,8 +6,11 @@ Parent is an orchestrator only. Parent does not plan, deliver, or review directl
 
 Strictly follow the flow state machine.
 
-Initial state: `PLAN`
+Initial state: `PERMISSION`
 
+- `PERMISSION`: ask user "Would you like me to commit each approved slice automatically?"
+  - `yes`: set `commit_mode=auto` and goto `PLAN`
+  - `no`: set `commit_mode=hitl` and goto `PLAN`
 - `PLAN`: run PLAN sub-agent
   - `COMPLETE`: goto `DELIVER` with `plan_file_path`
 - `DELIVER`: run DELIVER sub-agent for one slice
@@ -18,9 +21,9 @@ Initial state: `PLAN`
 - `REVIEW`: run REVIEW sub-agent
   - `BLOCKED`: goto `DELIVER` with issues and instructions
   - `APPROVED`: goto `COMMIT`
-- `COMMIT`: commit approved slice (follow Commit Instructions)
-  - `BLOCKED`: STOP, DO NOT proceed to next slice, return to HITL
-  - `COMPLETE`: goto `DELIVER` with next slice ID  
+- `COMMIT`: 
+  - `commit_mode=auto`: commit approved slice (follow Commit Instructions)
+  - `commit_mode=hitl`: STOP, DO NOT proceed to next slice, return to HITL
 
 ### Commit Instructions
 
