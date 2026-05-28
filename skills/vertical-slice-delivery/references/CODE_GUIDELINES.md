@@ -14,9 +14,10 @@ Leave code better than you found it:
 - Prefer unidirectional dependency/data flow.
 - Prefer derived values over redundant stored state.
 - Ensure acceptable algorithmic complexity (prefer O(n) over O(n²) when lists can grow).
+- Use `match()`/`matchAll()` for regex handling; they’re more explicit and avoid implicit stateful iteration (`lastIndex`) with global regexes.
 - Only use `if` statements for asymmetric decision flows where conditions differ in meaning, priority, or control flow.
 - Only use `switch` when branching on a single finite discriminant with symmetric peer cases.
-- Prefer polymorphism or strategy objects when branches evolve independently or accumulate substantial behavior.
+- Use polymorphism or strategy objects when branches evolve independently or accumulate substantial behavior.
 - Keep branching shallow by using guard clauses and early returns instead of deeply nested condition trees.
 - Treat repeated branching on the same business field across multiple modules as a potential missing abstraction.
 - Isolate business-data shape checks near system boundaries and normalize them into stable internal representations.
