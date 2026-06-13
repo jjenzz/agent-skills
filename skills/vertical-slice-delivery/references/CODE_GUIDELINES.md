@@ -1,26 +1,29 @@
 # Code Guidelines
 
-Leave code better than you found it:
+Leave touched code better than you found it.
 
-- Fix issues in files you touch for this slice.
-- Avoid scope creep unless the existing foundation blocks the correct implementation.
-- Contain side effects; avoid hidden mutations or implicit behavior.
-- Remove obsolete/unreachable code caused by the change.
-- Always prefer direct, local, explicit code over indirection.
-- Avoid speculative abstractions and placeholders.
-- Do not introduce single-use extractions or abstractions unless it enables concrete reuse, or is lint-driven.
-- Extract/generalize when there are 3+ real call sites (counting both existing and new code).
-- Copy-paste is acceptable until concrete patterns emerge.
-- Prefer unidirectional dependency/data flow.
+- Fix relevant issues in files you touch.
+- Avoid scope creep unless existing foundation blocks correct implementation.
+- Remove obsolete or unreachable code caused by your change.
+- Add tests when they reduce user-facing or diagnostic risk.
+
+- Prefer direct, local, explicit code.
+- Contain side effects; avoid hidden mutation or implicit behavior.
+- Prefer unidirectional data flow.
 - Prefer derived values over redundant stored state.
-- Ensure acceptable algorithmic complexity (prefer O(n) over O(n²) when lists can grow).
-- Use `match()`/`matchAll()` for regex handling; they’re more explicit and avoid implicit stateful iteration (`lastIndex`) with global regexes.
-- Only use `if` statements for asymmetric decision flows where conditions differ in meaning, priority, or control flow.
-- Only use `switch` when branching on a single finite discriminant with symmetric peer cases.
+- Make lifecycle dependencies explicit; avoid temporal coupling.
+- Prefer narrow arguments and stable internal types over mutable transport or persistence models.
+
+- Avoid speculative abstractions, placeholders, and single-use extractions.
+- Generalize only after 3+ real call sites.
+- Copy-paste is acceptable until concrete patterns emerge.
+
+- Keep branching shallow with guard clauses.
+- Use `if` for asymmetric decision flows.
+- Use `switch` for symmetric cases of a single finite discriminant.
 - Use polymorphism or strategy objects when branches evolve independently or accumulate substantial behavior.
-- Keep branching shallow by using guard clauses and early returns instead of deeply nested condition trees.
-- Treat repeated branching on the same business field across multiple modules as a potential missing abstraction.
-- Isolate business-data shape checks near system boundaries and normalize them into stable internal representations.
-- Do not pass large business objects through branching logic when only a few fields are needed; extract or normalize the required values near the boundary.
-- Prefer narrow function arguments and stable internal types over passing mutable transport or persistence models throughout the codebase.
-- Add tests where they reduce meaningful user-facing or diagnostic risk.
+- Treat repeated branching on the same business field as a missing-abstraction signal.
+- Normalize business-data shape checks near system boundaries.
+
+- Keep complexity acceptable; avoid O(n²) when lists can grow.
+- Prefer `match()`/`matchAll()` for regex handling; they avoid implicit stateful iteration.
