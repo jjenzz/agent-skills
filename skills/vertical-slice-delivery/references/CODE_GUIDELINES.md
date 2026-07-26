@@ -25,15 +25,15 @@ Avoid broad refactors whose risk or scope outweighs the simplification they prov
 
 ## Naming and documentation
 
-- Make code self-documenting through names that express business or domain intent.
-- Introduce named variables, functions, or types that clarify a meaningful concept—not merely to restate an operation.
+- Make code self-documenting through names that express business or domain intent—do not restate an operation.
+- Introduce named variables to clarify conditional logic or give meaning to function results.
 - Add comments only for context, constraints, assumptions, or necessary complexity that the code cannot express clearly.
 - For non-obvious code, explain why it exists and what could break if it is simplified or changed.
 
 ## Abstraction and duplication
 
 - Avoid speculative abstractions, placeholders, and single-use extractions.
-- Evaluate duplication across existing and newly introduced code by shared responsibility or behaviour, not textual or structural similarity.
+- Evaluate duplication across existing and newly introduced code by shared responsibility or behaviour, not just textual or structural similarity.
 - Prefer duplication until three or more total instances reveal a genuine shared concept with the same reason to change.
 - Use the smallest abstraction that captures their common behaviour without coupling unrelated cases.
 
