@@ -2,26 +2,25 @@
 
 ## Priorities
 
-Optimise, in order, for:
+When guidelines conflict, optimise in this order:
 
 1. Correctness and required behaviour.
-2. Simplicity and readability.
+2. Conceptual simplicity and readability, not minimum line count.
 3. Consistency with established codebase patterns.
 4. Ease of future change.
 
-Choose the smallest conceptually complete implementation, even when a focused refactor is needed. Prefer deleting unnecessary code to adding code. Do not retain obsolete abstractions, compatibility layers, unreachable code, or structure without a current requirement.
-
-Avoid broad refactors whose risk or scope outweighs the simplification they provide.
-
 ## Design
 
+- Choose the smallest conceptually complete implementation, refactoring existing code when doing so yields a simpler, more coherent design.
+- Do not avoid a worthwhile refactor solely because it is substantial; minimise its blast radius by changing only the files necessary to implement and verify the improvement.
+- Prefer removing unnecessary code to adding code. Do not preserve obsolete abstractions, compatibility layers, unreachable code, or structure without a current requirement.
 - Use direct, explicit code and contain side effects.
 - Prefer unidirectional data flow, derived values over redundant state, and explicit lifecycle dependencies.
 - Avoid hidden mutation, implicit behaviour, and temporal coupling.
 - Accept narrow arguments and use stable internal types rather than mutable transport or persistence models.
 - Reuse established helpers when they match the required behaviour and improve consistency.
 - Design for current requirements and realistic change, not hypothetical extensibility.
-- Only handle edge cases that are supported by requirements, documented behaviour, observed usage, production evidence, or realistic failure modes.
+- Only handle edge cases supported by requirements, documented behaviour, observed usage, production evidence, or realistic failure modes.
 
 ## Naming and documentation
 
