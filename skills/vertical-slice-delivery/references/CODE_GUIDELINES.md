@@ -1,54 +1,62 @@
 # Code Guidelines
 
+All rules are mandatory. Apply them together. When rules conflict, follow the priority order below.
+
 ## Priorities
 
-When guidelines conflict, optimise in this order:
-
-1. Correctness and required behaviour.
-2. Conceptual simplicity and readability, not minimum line count.
-3. Consistency with established codebase patterns.
-4. Ease of future change.
+1. Meet required behaviour and preserve correctness.
+2. Use the fewest concepts and least indirection that remain clear and correct.
+3. Minimise coupling and keep change boundaries clear.
+4. Follow established codebase patterns.
 
 ## Design
 
-- Choose the smallest conceptually complete implementation, refactoring existing code when doing so yields a simpler, more coherent design.
-- Do not avoid a worthwhile refactor solely because it is substantial; minimise its blast radius by changing only the files necessary to implement and verify the improvement.
-- Prefer removing unnecessary code to adding code. Do not preserve obsolete abstractions, compatibility layers, unreachable code, or structure without a current requirement.
-- Use direct, explicit code and contain side effects.
-- Prefer unidirectional data flow, derived values over redundant state, and explicit lifecycle dependencies.
-- Avoid hidden mutation, implicit behaviour, and temporal coupling.
-- Accept narrow arguments and use stable internal types rather than mutable transport or persistence models.
-- Reuse established helpers when they match the required behaviour and improve consistency.
-- Design for current requirements and realistic change, not hypothetical extensibility.
-- Only handle edge cases supported by requirements, documented behaviour, observed usage, production evidence, or realistic failure modes.
+- Implement the smallest complete design that satisfies current requirements.
+- Refactor existing code when it reduces code, simplifies design, or establishes one source of truth.
+- Remove obsolete code, compatibility layers, unreachable code, and structure without a current requirement.
+- Use direct, explicit code.
+- Isolate side effects.
+- Always use unidirectional data flow: data down, actions up.
+- Derive values instead of storing redundant state.
+- Do not rely on hidden mutation, implicit behaviour, or call order; express dependencies through parameters and return values.
+- Make setup, cleanup, and cancellation explicit.
+- Pass only the values a function uses; do not pass broad context objects.
+- Map transport and persistence models to internal types at system boundaries; do not pass mutable DTOs or ORM entities through internal logic.
+- Reuse an existing helper when it implements the required behaviour.
+- Implement current requirements only; do not solve hypothetical problems.
+- Handle an edge case only when supported by requirements, documented behaviour, observed usage, production evidence, or realistic failure modes.
 
-## Naming and documentation
+## Naming and Code Comments
 
-- Make code self-documenting through names that express business or domain intent—do not restate an operation.
-- Introduce named variables to clarify conditional logic or give meaning to function results.
-- Add comments only for context, constraints, assumptions, or necessary complexity that the code cannot express clearly.
-- For non-obvious code, explain why it exists and what could break if it is simplified or changed.
+- Name code after its business or domain intent, not its operation.
+- Extract conditions into named booleans when they combine multiple conditions or span multiple lines.
+- Assign function results to named variables before passing them to another function.
+- Add code comments only for context, constraints, assumptions, or behaviour the code cannot express.
+- When an invariant is not evident from the code, add a code comment explaining why it exists and what behaviour could break if it changes.
 
-## Abstraction and duplication
+## Abstraction and Duplication
 
-- Avoid speculative abstractions, placeholders, and single-use extractions.
-- Evaluate duplication across existing and newly introduced code by shared responsibility or behaviour, not just textual or structural similarity.
-- Prefer duplication until three or more total instances reveal a genuine shared concept with the same reason to change.
-- Use the smallest abstraction that captures their common behaviour without coupling unrelated cases.
+- Do not create speculative abstractions, placeholders, or single-use extractions.
+- Evaluate duplication by shared responsibility or behaviour, not just textual or structural similarity.
+- Do not create a shared abstraction before two instances exist; two instances trigger evaluation, not automatic abstraction.
+- Create an abstraction only when instances share behaviour or responsibility and the same reason to change.
+- Abstract only the shared behaviour; do not couple unrelated cases.
 
-## Control flow and complexity
+## Control Flow and Complexity
 
-- Keep branching shallow and use guard clauses.
-- Use:
-  - `if` for asymmetric decisions;
-  - `switch` for symmetric cases over one finite discriminant;
-  - polymorphism or strategies when branches contain substantial behaviour or evolve independently.
-- Treat repeated branching on the same business field as a signal to evaluate a missing abstraction.
-- Normalise external data and shape checks at system boundaries.
-- Avoid unnecessary algorithmic and cognitive complexity.
-- Avoid O(n²) operations when collections can grow meaningfully.
-- Prefer `match()` or `matchAll()` for regex handling to avoid implicit stateful iteration.
+- Use guard clauses for invalid or exceptional cases; keep the main path flat.
+- Use `if` for asymmetric decisions.
+- Use `switch` for symmetric cases over one finite discriminant.
+- Use polymorphism or strategies when branches implement distinct algorithms or have independent reasons to change.
+- When the same business field is branched on repeatedly, evaluate a shared abstraction and apply the duplication rule before creating it.
+- Always validate and normalise external data at system boundaries.
+- Use the simplest algorithm and control flow that meet the requirements and expected data scale.
+- Do not add abstraction, indirection, state, or branching without a concrete need.
+- Do not use `O(n²)` operations on collections that are not explicitly bounded when a lower-complexity solution meets the requirements.
+- Use `match()` or `matchAll()` for regular-expression handling.
+- Do not use stateful regular-expression iteration that depends on mutable `lastIndex`.
 
 ## Tests
 
-Add or update tests when a change affects user-visible behaviour, public contracts, error handling, diagnostics, important edge cases, or regression-prone logic. Keep tests proportional to the risk.
+- Add or update tests only for changes affecting user-visible behaviour, public contracts, error handling, diagnostics, required edge cases, or logic with known regression risk.
+- Use focused tests to cover changed behaviour and documented or reachable failure modes.
