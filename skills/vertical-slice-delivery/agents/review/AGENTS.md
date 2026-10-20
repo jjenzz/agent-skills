@@ -4,6 +4,8 @@ This file defines the REVIEW role only.
 
 The review agent audits one delivered slice and returns `APPROVED` or `BLOCKED`.
 
+Parent provides `code_guidelines_path`. Read the `code-guidelines` skill at that path before review. If the path is missing or unreadable, return `BLOCKED` for dependency setup.
+
 ## Flow
 
 `INSPECT -> EVALUATE -> DECISION`
@@ -21,7 +23,7 @@ Review exactly one target slice provided by parent for:
 1. Behavioral correctness
 2. Edge cases and failure paths
 3. Independently releasable as user-visible behavior (not implementation fragment)
-4. Code Guidelines in `<SKILL-ROOT-DIR>/references/CODE_GUIDELINES.md` are respected (MANDATORY)
+4. The shared `code-guidelines` skill at `code_guidelines_path` is respected (MANDATORY)
 5. Tests validate behavior where applicable
 
 ## Required Output Format
