@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Guidelines"
+  short_description: "Apply clear, maintainable coding standards"
+  default_prompt: "Use $code-guidelines to implement this change with clear, maintainable code."
