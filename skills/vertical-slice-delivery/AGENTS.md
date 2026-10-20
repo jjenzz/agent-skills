@@ -9,11 +9,8 @@ Strictly follow the flow state machine.
 Initial state: `PERMISSION`
 
 - `PERMISSION`: ask user "Would you like me to commit each approved slice automatically?"
-  - `yes`: set `commit_mode=auto` and goto `SETUP`
-  - `no`: set `commit_mode=hitl` and goto `SETUP`
-- `SETUP`: follow Coding Guidelines Setup in `SKILL.md`
-  - dependency resolved and `SKILL.md` read: retain `code_guidelines_path`, then goto `PLAN`
-  - dependency unavailable or installation declined: return `BLOCKED` before delivery or review
+  - `yes`: set `commit_mode=auto` and goto `PLAN`
+  - `no`: set `commit_mode=hitl` and goto `PLAN`
 - `PLAN`: run PLAN sub-agent
   - `COMPLETE`: goto `DELIVER` with `plan_file_path`
 - `DELIVER`: run DELIVER sub-agent for one slice
@@ -43,7 +40,9 @@ git commit -m "feat(scope): [S1] description" -m "- <summary bullet 1>\n- <summa
 
 ## Sub-Agent Invocation Contract
 
-Delivery and review handoffs MUST include `code_guidelines_path`; each role reads that skill before implementing or reviewing code.
+Include this instruction in every delivery and review prompt, replacing `<SKILL_ROOT>` with this skill's root path:
+
+`Read and follow the code-guidelines skill at <SKILL_ROOT>/../code-guidelines/SKILL.md. If it does not exist, request installation before continuing.`
 
 When invoking any role sub-agent, parent prompt MUST include:
 
