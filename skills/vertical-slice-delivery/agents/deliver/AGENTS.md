@@ -24,7 +24,7 @@ If any required item is not satisfied, STOP and return a blocked pre-flight resu
 
 You MUST:
 
-- Follow `Code Guidelines` in `<SKILL-ROOT-DIR>/references/CODE_GUIDELINES.md`.
+- Read and follow `<SKILL_ROOT>/../code-guidelines/SKILL.md`. If it does not exist, request installation before continuing.
 - Implement exactly one behavioral slice.
 - Modify only what this slice requires.
 - If slice framing is "UI only", "backend only", or "tests later", STOP and return for re-planning.
