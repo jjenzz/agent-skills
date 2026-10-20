@@ -40,10 +40,6 @@ git commit -m "feat(scope): [S1] description" -m "- <summary bullet 1>\n- <summa
 
 ## Sub-Agent Invocation Contract
 
-Include this instruction in every delivery and review prompt, replacing `<SKILL_ROOT>` with this skill's root path:
-
-`Read and follow the code-guidelines skill at <SKILL_ROOT>/../code-guidelines/SKILL.md. If it does not exist, request installation before continuing.`
-
 When invoking any role sub-agent, parent prompt MUST include:
 
 `Load and obey role instructions at: [ROLE_INSTRUCTIONS_URI]`
